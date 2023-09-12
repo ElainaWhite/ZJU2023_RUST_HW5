@@ -91,8 +91,12 @@ async fn main() {
                 let req = ItemRequest{
                     item: Item { key: FastStr::from_str(key).unwrap(), value:Some(FastStr::from_str(value).unwrap()) }
                 };
-                let value = CLIENT.set(req).await.unwrap().item.value.unwrap();
-                println!("\n{}", value);
+                let value = CLIENT.set(req).await.unwrap().item.value;
+                match value {
+                    Some(v) => {println!("\n{}", v);},
+                    None => {println!("\n PONG");}
+                }
+                
                 
             }
             _ =>  {continue;}
